@@ -8,24 +8,22 @@ import wget
 
 def parseLine(line):
 
-    line = re.sub('<td bgcolor="[A-Za-z0-9]+"></td>', '<td>yes</td>', line)
+    # remove row tags
+    line = line[4:len(line)-5]
+    # split in multiple cells
+    cells = line.split("</td>")
 
-    tempresBeforeWeeks = re.split('<td bgcolor="[A-Z0-9]+">', line)
-    tempresBeforeWeeks.remove('<tr>')
-    tempresOPONameandWeeks = re.split('</td>', (tempresBeforeWeeks[len(tempresBeforeWeeks) - 1]))
-    tempresBeforeWeeks.pop()  # remove the opo concatenated to the weeks
-    tempresOPONameandWeeks.remove('</tr>')
-    # remove </td> from tempresBeforeWeeks
-    for i in range(len(tempresBeforeWeeks)):
-        el = tempresBeforeWeeks[i]
-        tempresBeforeWeeks[i] = el[:len(el) - 5]
+    #clean up cell content; catch ValueError (if regex not in string)
+    try:
+        cells[:6] = [re.sub('<td bgcolor="[A-Za-z0-9]+">|', '', i) for i in cells[:6]]
+        #if the week's cell has a color, there's class that week
+        cells[6:] = [re.sub('<td bgcolor="[A-Za-z0-9]+">', 'yes', i) for i in cells[6:]]
+        cells = [re.sub('<td>', '', i) for i in cells]
 
-    # remove <td> from tempresOPONameandWeeks (except for the first)
-    for i in range(1, len(tempresOPONameandWeeks)):
-        el = tempresOPONameandWeeks[i]
-        tempresOPONameandWeeks[i] = el[4:]
+    except ValueError:
+        pass
 
-    return tempresBeforeWeeks + tempresOPONameandWeeks
+    return cells
 
 
 def createCalendar(opos):
@@ -36,12 +34,9 @@ def createCalendar(opos):
     return c
 
 
-def handleCells(cellSet):
-    # dag : tijdsslot : lokaal : OPO : OLA : Naam : Weken (39,40,41,42,43,44,45,46,47,48,49,50,51)
+def handleCells(cellSet, semester):
 
     Opos = {}
-    # TODO: semester setten
-    semester = 1
 
     for cells in cellSet:
         day, timeSlot, location, opoCode, olaCode, olaName = [str(el) for el in cells[:6]]
@@ -63,7 +58,7 @@ def handleCells(cellSet):
             d = pendulum.datetime(2018, 9, 24, 0, 0, 0, tz=pendulum.timezone('Europe/Brussels'))
             weekStart = 39
         elif semester == 2:
-            d = None
+            d = pendulum.datetime(2019, 2, 11, 0, 0, 0, tz=pendulum.timezone('Europe/Brussels'))
         else:
             raise ValueError("invalid semester!")
 
@@ -80,7 +75,7 @@ def handleCells(cellSet):
 
             weekCount += 1
 
-    return Opos.values()
+    return Opos
 
 
 def getDayNumber(day):
@@ -100,13 +95,12 @@ def parseFile(semester):
 
     for line in file:
         line = line.rstrip()
-        std = '''<tr>(<td bgcolor="([A-Z0-9]*)">([A-Za-z0-9\-\:\s\.\<\>\/&,]*)</td>){6}(<(td|td bgcolor="[A-Z0-9a-z]*")></td>){13}</tr>'''
+        std = '''<tr>(<td bgcolor="([A-Z0-9]*)">([A-Za-z0-9\-\:\s\.\<\>\/&,]*)</td>){6}(<(td|td bgcolor="[A-Z0-9a-z]*")></td>){13,15}</tr>'''
         if (re.match(std, line)):
             cells = parseLine(line)
             cellSet.append(cells)
-            # print(cells)
         else:
-            print(line)
+            # print(line)    # enable this if if the parser might have missed a row of the table
             pass
 
     # close file:
@@ -116,13 +110,26 @@ def parseFile(semester):
     os.system("rm file.html")
     return cellSet
 
+def concatenateClassesAcrossYear(cellSetSem1, cellSetSem2):
+    cellSetSem1 = cellSetSem1.copy()
+    res = cellSetSem1
+    for opoCode,opo in cellSetSem2.items():
+        if opoCode not in cellSetSem1:
+            res[opoCode]=opo
+        else:
+            res[opoCode].events.update(opo.events)
+
+    return res.values()
+
+
 
 
 def main():
 
-    cellSet = parseFile(1)#+parseFile(2) TODO
+    cellSetSem1 = parseFile(1)
+    cellSetSem2 = parseFile(2)
 
-    Opos = handleCells(cellSet)
+    Opos = concatenateClassesAcrossYear(handleCells(cellSetSem1, 1), handleCells(cellSetSem2, 2))
 
     chosenOpos = visualPart.chooseOpos(Opos)
 
@@ -130,6 +137,11 @@ def main():
 
     with open("calendar.ics", 'w') as calendarFile:
         calendarFile.writelines(calendar)
+
+    print("Calendar sucessfully exported to 'calendar.cs'")
+    print("The following courses were selected:")
+    for chosenOpo in chosenOpos:
+        print(chosenOpo.name)
 
 
 class Opo:
