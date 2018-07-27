@@ -1,5 +1,5 @@
 # RosterParser
-Generate a .ics file of the Master Computer Science roster of academic year 2018-2019.
+Generate a .ics file of the Master Computer Science roster of academic year 2018-2019 at KU Leuven ([semester 1](https://people.cs.kuleuven.be/~btw/roosters1819/cws_semester_1.html), [semester 2](https://people.cs.kuleuven.be/~btw/roosters1819/cws_semester_2.html)).
 
 ## Requirements
 * [python](https://www.python.org/getit/) (tested using version 3.4+)

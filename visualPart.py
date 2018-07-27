@@ -2,6 +2,8 @@ from tkinter import *
 # from ttk import *
 
 
+# scrollbar code is taken from Brian Okleay's response on StackOverflow:
+# https://stackoverflow.com/questions/3085696/adding-a-scrollbar-to-a-group-of-widgets-in-tkinter
 def chooseOpos(opoSet):
     opoDict = {}
     opoList = list(opoSet)
