@@ -1,12 +1,11 @@
 from tkinter import *
-from prog import Opo
 # from ttk import *
-
-
 
 
 def chooseOpos(opoSet):
     opoDict = {}
+    opoList = list(opoSet)
+    opoList.sort(key=lambda x: x.name) #sort opo's on name
 
     root = Tk()
     canvas = Canvas(root, borderwidth=0)
@@ -21,7 +20,7 @@ def chooseOpos(opoSet):
     frame.bind("<Configure>", lambda event, canvas=canvas: onFrameConfigure(canvas))
 
     i = 0
-    for opo in opoSet:
+    for opo in opoList:
         var = IntVar()
         Checkbutton(frame, text=opo.name, variable=var).grid(row=i, sticky=W)
 
@@ -40,14 +39,6 @@ def chooseOpos(opoSet):
 
     return remainingSet
 
-
-def populate(frame):
-    '''Put in some fake data'''
-    for row in range(100):
-        Label(frame, text="%s" % row, width=3, borderwidth="1",
-                 relief="solid").grid(row=row, column=0)
-        t = "this is the second column for row %s" % row
-        Label(frame, text=t).grid(row=row, column=1)
 
 def onFrameConfigure(canvas):
     '''Reset the scroll region to encompass the inner frame'''
