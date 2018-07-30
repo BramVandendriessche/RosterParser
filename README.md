@@ -4,9 +4,13 @@ Generate a .ics file of the Master Computer Science roster of academic year 2018
 ## Requirements
 * [python](https://www.python.org/getit/) (tested using version 3.4+)
 * [ics](https://pypi.org/project/ics/)
-* [pendulum](https://tkdocs.com/tutorial/install.html)
+* [pendulum](https://pendulum.eustace.io/)
 * [wget](https://pypi.org/project/wget/)
 * [Tkinter](https://tkdocs.com/tutorial/install.html)
+
+
+## Disclaimer
+This script might save you some time or waste a lot of it. It might also burn your house down, set your cat on fire or cause nightmares.
 
 
 ## Usage
@@ -21,12 +25,13 @@ python3 mainProgram.py
 or
 ...
 
-Choose the courses to be included in your calendar.
-
-A file *calendar.ics* is generated, which can be imported in Outlook, Google Calendar etc.
+Choose the courses to be included in your calendar. Mousewheel / two-finger scrolling is not supported in the course selection window; move the scrollbar to scroll up or down. After closing the window, a file *calendar.ics* is generated, which can be imported in Outlook, Google Calendar etc.
 
 ## Undoing an import
-In case you want to remove the imported classes from your calendar, modify *calendar.ics* by adding the following line to every event:
+Importing the file to a calendar, creates events in that calendar (or at least this is the case for Google Calendar). Therefore it is strongly recommended to create a **new** calendar to import the events of *calendar.ics* to. In this way, the entire calendar can just be removed or replaced, without having to remove the events one by one. 
+
+In case you want to remove the imported events from your calendar without actually removing the calendar itself, try modifying *calendar.ics* by adding the following line to every event:
 ```
 STATUS:CANCELLED
 ```
+Next, import your *"cancelendar"* again, wich should undo the original import. This worked for me in Google Calendar, but it might not for other applications. Some will mark the events as "Cancelled" without actually removing them, others won't do anything at all.
