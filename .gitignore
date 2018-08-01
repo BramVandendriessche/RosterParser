@@ -1,3 +1,7 @@
 .idea/
 __pycache__/visualPart.cpython-37.pyc
 __pycache__/prog.cpython-37.pyc
+
+__pycache__/
+
+*.ics

@@ -16,6 +16,8 @@ def parseLine(line):
     #clean up cell content; catch ValueError (if regex not in string)
     try:
         cells[:6] = [re.sub('<td bgcolor="[A-Za-z0-9]+">|', '', i) for i in cells[:6]]
+        cells[:6] = [re.sub('<i>', '', i) for i in cells[:6]]
+        cells[:6] = [re.sub('</i>', '', i) for i in cells[:6]]
         #if the week's cell has a color, there's class that week
         cells[6:] = [re.sub('<td bgcolor="[A-Za-z0-9]+">', 'yes', i) for i in cells[6:]]
         cells = [re.sub('<td>', '', i) for i in cells]
@@ -42,6 +44,8 @@ def handleCells(cellSet, semester):
         day, timeSlot, location, opoCode, olaCode, olaName = [str(el) for el in cells[:6]]
         nameOfOPO = olaName.split(":")[0]
         if "Capita Selecta" in nameOfOPO:
+            nameOfOPO = olaName
+        if "Studium" in nameOfOPO:
             nameOfOPO = olaName
 
         begintime, endtime = timeSlot.split("-")
@@ -138,7 +142,7 @@ def main():
     with open("calendar.ics", 'w') as calendarFile:
         calendarFile.writelines(calendar)
 
-    print("Calendar sucessfully exported to 'calendar.cs'")
+    print("\n\nCalendar sucessfully exported to 'calendar.cs'")
     print("The following courses were selected:")
     for chosenOpo in chosenOpos:
         print(chosenOpo.name)
