@@ -88,12 +88,12 @@ def getDayNumber(day):
 def parseFile(semester):
     # get file
 
-    response = wget.download("https://people.cs.kuleuven.be/~btw/roosters1819/cws_semester_"+str(semester)+".html",  "file.html")
+    # response = wget.download("https://people.cs.kuleuven.be/~btw/roosters1819/cws_semester_"+str(semester)+".html",  "file.html")
     # os.system('wget "https://people.cs.kuleuven.be/~btw/roosters1819/cws_semester_1.html" -O file.html')
 
     # read file
-    file = open("file.html", "r")
-    # file = open("cws_semester_1.html")
+    # file = open("file.html", "r")
+    file = open("cws_semester_"+str(semester)+".html")
 
     cellSet = []
 
@@ -111,7 +111,7 @@ def parseFile(semester):
     file.close()
 
     # remove file
-    os.system("rm file.html")
+    # os.system("rm file.html")
     return cellSet
 
 def concatenateClassesAcrossYear(cellSetSem1, cellSetSem2):
@@ -142,7 +142,7 @@ def main():
     with open("calendar.ics", 'w') as calendarFile:
         calendarFile.writelines(calendar)
 
-    print("\n\nCalendar sucessfully exported to 'calendar.cs'")
+    print("\n\nCalendar sucessfully exported to 'calendar.ics'")
     print("The following courses were selected:")
     for chosenOpo in chosenOpos:
         print(chosenOpo.name)

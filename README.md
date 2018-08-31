@@ -6,7 +6,8 @@ Generate a .ics file of the Master Computer Science roster of academic year 2018
 * [Tkinter](https://wiki.python.org/moin/TkInter)
 * [ics](https://pypi.org/project/ics/)
 * [pendulum](https://pendulum.eustace.io/)
-* [wget](https://pypi.org/project/wget/)
+<!-- wget is not required anymore, since the html files should now be manually saved
+* [wget](https://pypi.org/project/wget/) -->
 
 ## Disclaimers
 * This script might save you some time or waste a lot of it.
@@ -15,7 +16,13 @@ Generate a .ics file of the Master Computer Science roster of academic year 2018
 
 
 ## Usage
-Run *mainProgram.py*
+Since logging in with your KUL-account is now required to get access to the above pages, the web pages now have to be downloaded manually.  
+1. Save the web pages:
+  * Go to [semester 1](https://people.cs.kuleuven.be/~btw/roosters1819/cws_semester_1.html)
+  * Log in with your KUL account
+  * Save the web page (CTRL+S or CMD+S) in *mainProgram.py*'s folder as *cws_semester_1.html*
+  * Repeat for [semester 2](https://people.cs.kuleuven.be/~btw/roosters1819/cws_semester_2.html), save as *cws_semester_2.html*
+2. Run *mainProgram.py*
 ```
 python mainProgram.py
 ```
@@ -26,10 +33,11 @@ python3 mainProgram.py
 or
 ...
 
-Choose the courses to be included in your calendar. Mousewheel / two-finger scrolling is not supported in the course selection window; move the scrollbar instead. After closing the window, a file *calendar.ics* is generated, which can be imported in Outlook, Google Calendar, iCalendar etc.
+3. Choose the courses to be included in your calendar. Mousewheel / two-finger scrolling is not supported in the course selection window; move the scrollbar instead.
+4. After closing the window, a file *calendar.ics* is generated, which can be imported in Outlook, Google Calendar, iCalendar etc.
 
 ## Undoing an import
-Importing the file to a calendar, creates events in that calendar (or at least this is the case for Google Calendar). Therefore it is strongly recommended to create a **new** calendar to import the events of *calendar.ics* to. In this way, the entire calendar can just be removed or replaced, without having to remove the events one by one.
+Importing the file to a calendar, creates events in that calendar (or at least this is the case for Google Calendar). Therefore it is strongly recommended to create a **new** calendar to import the events of *calendar.ics* to. In this way, the entire calendar can just be removed or replaced, without having to remove events one by one.
 
 In case you want to remove the imported events from a calendar without actually removing the calendar itself, try modifying *calendar.ics* by adding the following line to every event:
 ```
