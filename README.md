@@ -1,3 +1,7 @@
+**NOTE:** this parser is not able to parse the pages containing the rosters at the time of writing (October 2018), since the roster is not presented as a table anymore. This program is useless right now..
+
+---
+
 # RosterParser
 Generate a .ics file of the Master Computer Science roster of academic year 2018-2019 at KU Leuven ([semester 1](https://people.cs.kuleuven.be/~btw/roosters1819/cws_semester_1.html), [semester 2](https://people.cs.kuleuven.be/~btw/roosters1819/cws_semester_2.html)).
 
