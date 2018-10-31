@@ -6,8 +6,8 @@ Generate a .ics file of the Master Computer Science roster of academic year 2018
 * [Tkinter](https://wiki.python.org/moin/TkInter)
 * [ics](https://pypi.org/project/ics/)
 * [pendulum](https://pendulum.eustace.io/)
-<!-- wget is not required anymore, since the html files should now be manually saved
-* [wget](https://pypi.org/project/wget/) -->
+* [wget](https://pypi.org/project/wget/)
+
 
 ## Disclaimers
 * This script might save you some time or waste a lot of it.
