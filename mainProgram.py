@@ -88,12 +88,12 @@ def getDayNumber(day):
 def parseFile(semester):
     # get file
 
-    # response = wget.download("https://people.cs.kuleuven.be/~btw/roosters1819/cws_semester_"+str(semester)+".html",  "file.html")
+    response = wget.download("https://people.cs.kuleuven.be/~btw/roosters1819/cws_semester_"+str(semester)+".html",  "file.html")
     # os.system('wget "https://people.cs.kuleuven.be/~btw/roosters1819/cws_semester_1.html" -O file.html')
 
     # read file
-    # file = open("file.html", "r")
-    file = open("cws_semester_"+str(semester)+".html")
+    file = open("file.html", "r")
+    # file = open("cws_semester_"+str(semester)+".html")
 
     cellSet = []
 
